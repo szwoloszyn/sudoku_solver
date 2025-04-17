@@ -9,8 +9,10 @@ bool foo();
 class Field
 {
 public:
+    Field();
     Field(int a);
     int getFieldValue() const;
+    bool isBlank() const;
 
     bool operator>(const Field& comp) const;
     bool operator>(int comp) const;
@@ -25,6 +27,7 @@ public:
     static std::vector<Field> getAllPossibleValues();
 private:
     int value;
+    bool blank;
 };
 
 std::vector<Field> getLackingValues(const std::vector<Field>& pVals);

@@ -3,14 +3,15 @@
 
 #include <vector>
 
+#include "field.h"
 class Sudoku
 {
 public:
     Sudoku();
+    //Sudoku(std::vect);
 
 private:
-    //std::vector<std::vector<std::size_t>>;
-    int a= 1;
+    std::vector<std::vector<Field>> sudokuBoard;
 };
 
 #endif // SUDOKU_H

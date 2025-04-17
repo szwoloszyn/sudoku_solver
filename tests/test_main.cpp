@@ -45,6 +45,14 @@ TEST_F(FieldTest, comparatorsWork)
 
     Field anotherExample = 4;
     ASSERT_EQ(exampleVal, anotherExample);
+    ASSERT_FALSE(anotherExample.isBlank());
+    anotherExample = 0;
+    ASSERT_TRUE(anotherExample.isBlank());
+
+    // TODO FAILING THESE TESTS
+    Field lastExample = 0;
+    ASSERT_TRUE(lastExample.isBlank());
+    ASSERT_EQ(lastExample.getFieldValue(), 0);
 }
 
 TEST_F(FieldTest, lackingValues_are_correct)

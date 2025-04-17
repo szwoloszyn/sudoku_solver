@@ -8,14 +8,36 @@ bool foo()
     return 1;
 }
 
-Field::Field(int a)
+Field::Field() : blank{true} , value{0}
 {
+
+}
+
+Field::Field(int a) : blank{false}
+{
+    // TODO MISTAKE
+    if (a == 0) {
+        Field();
+        return;
+    }
     if (!(a > 0 and a < 10)) {
         throw std::out_of_range{"sudoku field can only contain values in range from 1 to 9"};
     }
     this->value = a;
 }
 
+// WARNING: this function will return 0 when FIeld is blank
+int Field::getFieldValue() const
+{
+    return this->value;
+}
+
+bool Field::isBlank() const
+{
+    return blank;
+}
+
+// WARNING: comparators will always return true (== false) when called on blank field !
 bool Field::operator>(const Field &comp) const
 {
     return this->value > comp.value;
@@ -48,6 +70,12 @@ bool Field::operator==(int comp) const
 
 Field& Field::operator=(int a)
 {
+    if (a == 0) {
+        this->blank = true;
+        this->value = 0;
+        return *this;
+    }
+    this->blank = false;
     if (!(a > 0 and a < 10)) {
         throw std::out_of_range{"sudoku field can only contain values in range from 1 to 9"};
     }
