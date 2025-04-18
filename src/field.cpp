@@ -15,18 +15,21 @@ Field::Field() : blank{true} , value{0}
 
 Field::Field(int a) : blank{false}
 {
+
     // TODO MISTAKE
     if (a == 0) {
-        Field();
+        this->blank = true;
+        this->value = 0;
         return;
     }
+    this->blank = false;
     if (!(a > 0 and a < 10)) {
         throw std::out_of_range{"sudoku field can only contain values in range from 1 to 9"};
     }
     this->value = a;
 }
 
-// WARNING: this function will return 0 when FIeld is blank
+// WARNING: this function will return 0 when Field is blank
 int Field::getFieldValue() const
 {
     return this->value;

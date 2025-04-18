@@ -23,6 +23,10 @@ public:
     bool operator==(const Field& comp) const;
     bool operator==(int comp) const;
 
+    operator int() const {
+        return this->value;
+    }
+
     Field& operator=(int a);
     static std::vector<Field> getAllPossibleValues();
 private:
