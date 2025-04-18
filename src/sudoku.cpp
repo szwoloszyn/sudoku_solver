@@ -49,27 +49,27 @@ void Sudoku::printBoard() const
     }
 }
 
-int Sudoku::getRowNr(int row, int col)
+int Sudoku::getRowNr(int row, int col) const
 {
     return row;
 }
 
-int Sudoku::getColumnNr(int row, int col)
+int Sudoku::getColumnNr(int row, int col) const
 {
     return col;
 }
 
-int Sudoku::getSquareNr(int row, int col)
+int Sudoku::getSquareNr(int row, int col) const
 {
     return 3*(row/3) + (col/3);
 }
 
-std::vector<Field> Sudoku::getRow(int nr)
+std::vector<Field> Sudoku::getRow(int nr) const
 {
     return this->sudokuBoard.at(nr);
 }
 
-std::vector<Field> Sudoku::getColumn(int nr)
+std::vector<Field> Sudoku::getColumn(int nr) const
 {
     vector<Field> column;
     for (auto row : this->sudokuBoard) {
@@ -78,7 +78,7 @@ std::vector<Field> Sudoku::getColumn(int nr)
     return column;
 }
 
-std::vector<Field> Sudoku::getSquare(int nr)
+std::vector<Field> Sudoku::getSquare(int nr) const
 {
     vector<Field> square;
     int startCol = 3 * (nr%3);
@@ -96,7 +96,7 @@ std::vector<Field> Sudoku::getSquare(int nr)
     return square;
 }
 
-std::vector<Field> Sudoku::getOptions(int row, int col)
+std::vector<Field> Sudoku::getOptions(int row, int col) const
 {
     if (this->getField(row, col) != 0) {
         return vector<Field>{};
@@ -109,9 +109,16 @@ std::vector<Field> Sudoku::getOptions(int row, int col)
     allFields.insert(allFields.end(), colFields.begin(), colFields.end());
     allFields.insert(allFields.end(), squareFields.begin(), squareFields.end());
     return getLackingValues(allFields);
-
 }
 
+void Sudoku::fillCertainFields()
+{
+    for (auto& row : sudokuBoard) {
+        for (auto& cell : row) {
+
+        }
+    }
+}
 
 
 

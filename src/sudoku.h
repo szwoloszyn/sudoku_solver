@@ -22,18 +22,20 @@ public:
     Sudoku();
     Sudoku(const std::vector<std::vector<int>>& numBoard);
     void printBoard() const;
-    std::vector<Field> getOptions(int row, int col);
+    std::vector<Field> getOptions(int row, int col) const;
+    void fillCertainFields();
+
 TESTABLE:
-    Field getField(int row, int col) {
+    Field getField(int row, int col) const{
         return this->sudokuBoard.at(row).at(col);
     }
-    int getRowNr(int row, int col);
-    int getColumnNr(int row, int col);
-    int getSquareNr(int row, int col);
+    int getRowNr(int row, int col) const;
+    int getColumnNr(int row, int col) const;
+    int getSquareNr(int row, int col) const;
 
-    std::vector<Field> getRow(int nr);
-    std::vector<Field> getColumn(int nr);
-    std::vector<Field> getSquare(int nr);
+    std::vector<Field> getRow(int nr) const;
+    std::vector<Field> getColumn(int nr) const;
+    std::vector<Field> getSquare(int nr) const;
 
 
 private:
