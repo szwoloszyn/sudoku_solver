@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 using std::vector;
+using std::set;
 
 bool foo()
 {
@@ -86,9 +87,9 @@ Field& Field::operator=(int a)
     return *this;
 }
 
-vector<Field> Field::getAllPossibleValues()
+set<Field> Field::getAllPossibleValues()
 {
-    return vector<Field>{1,2,3,4,5,6,7,8,9};
+    return set<Field>{1,2,3,4,5,6,7,8,9};
 //    vector<Field> all;
 //    for (int i = 1 ; i <= 9 ; ++i) {
 //        all.push_back(Field{i});
@@ -96,12 +97,11 @@ vector<Field> Field::getAllPossibleValues()
 //    return all;
 }
 
-std::vector<Field> getLackingValues(const std::vector<Field>& pVals)
+std::set<Field> getLackingValues(const std::set<Field>& pVals)
 {
     auto presentValues{pVals};
     auto allValues = Field::getAllPossibleValues();
-    vector<Field> absentValues{};
-    std::sort(presentValues.begin(), presentValues.end());
+    set<Field> absentValues{};
     std::set_difference(allValues.begin(), allValues.end(),
                         presentValues.begin(), presentValues.end(),
                         std::inserter(absentValues, absentValues.begin()));

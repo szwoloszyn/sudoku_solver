@@ -2,11 +2,12 @@
 #include "../src/field.h"
 
 using std::vector;
+using std::set;
 
 class FieldTest : public ::testing::Test
 {
 protected:
-    vector<Field> allValues;
+    set<Field> allValues;
     Field exampleVal{4};
     void SetUp() override {
         allValues = Field::getAllPossibleValues();
@@ -16,9 +17,9 @@ protected:
 
 TEST_F(FieldTest, allPosibbleVals_are_correct)
 {
-    vector<Field> all;
+    set<Field> all;
     for (int i = 1 ; i <= 9 ; ++i) {
-        all.push_back(Field{i});
+        all.insert(Field{i});
     }
     ASSERT_EQ(all, allValues);
 
@@ -49,7 +50,7 @@ TEST_F(FieldTest, comparatorsWork)
 
 TEST_F(FieldTest, lackingValues_are_correct)
 {
-    vector<Field> current{2,6,7,9};
-    vector<Field> expected{1,3,4,5,8};
+    set<Field> current{2,6,7,9};
+    set<Field> expected{1,3,4,5,8};
     ASSERT_EQ(getLackingValues(current), expected);
 }
