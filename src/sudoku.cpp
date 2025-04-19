@@ -123,6 +123,7 @@ bool Sudoku::fillCertainFields()
             }
         }
     }
+    std::cout << "galaz zbiorow!";
     return sthFilled;
 }
 
