@@ -73,3 +73,25 @@ TEST_F(SudokuTest, getOptions_works)
     col = 0;
     ASSERT_EQ(complexBoard.getOptions(row, col), vector<Field>{});
 }
+
+TEST_F(SudokuTest, fillCertainFields_work)
+{
+    vector<vector<int>> solvedBoard{
+        {7,9, 5, 3, 1, 8, 6, 2, 4},
+        {1, 6, 8, 4, 5, 2, 7, 9, 3},
+        { 3, 4, 2, 9, 7, 6, 5, 1, 8},
+        { 9, 2, 4, 6, 8, 1, 3, 5, 7},
+        { 5, 7, 3, 2, 4, 9, 1, 8, 6},
+        {8, 1, 6, 5, 3, 7, 9, 4, 2},
+        {4, 8, 9, 7, 6, 5, 2, 3, 1},
+        {6, 5, 1, 8, 2, 3, 4, 7, 9},
+        {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
+    };
+    Sudoku expectedBoard{solvedBoard};
+    Sudoku testBoard = complexBoard; // shallow copy should do jeust fine
+    auto testFlag = testBoard.fillCertainFields();
+    ASSERT_EQ(testBoard.getBoard(), expectedBoard.getBoard());
+    ASSERT_TRUE(testFlag);
+}
+
+

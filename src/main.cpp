@@ -25,4 +25,7 @@ int main()
     for (auto i : x) {
         std::cout << i.getFieldValue() << " ";
     }
+    std::cout << "\n=====\n";
+    myBoard.fillCertainFields();
+    myBoard.printBoard();
 }

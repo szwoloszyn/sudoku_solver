@@ -111,13 +111,19 @@ std::vector<Field> Sudoku::getOptions(int row, int col) const
     return getLackingValues(allFields);
 }
 
-void Sudoku::fillCertainFields()
+bool Sudoku::fillCertainFields()
 {
-    for (auto& row : sudokuBoard) {
-        for (auto& cell : row) {
-
+    bool sthFilled = false;
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
+            auto possibilities = this->getOptions(row, col);
+            if (possibilities.size() == 1) {
+                sudokuBoard.at(row).at(col) = possibilities.at(0);
+                sthFilled = true;
+            }
         }
     }
+    return sthFilled;
 }
 
 
