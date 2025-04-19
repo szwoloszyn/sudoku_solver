@@ -2,6 +2,7 @@
 #include "sudoku.h"
 
 using std::vector;
+using std::set;
 
 bool operator==(const std::vector<Field>& fields, const std::vector<int>& integers)
 {
@@ -12,6 +13,23 @@ bool operator==(const std::vector<Field>& fields, const std::vector<int>& intege
         if (fields.at(i) != integers.at(i)) {
             return false;
         }
+    }
+    return true;
+}
+
+bool operator==(const std::set<Field>& fields, const std::set<int>& integers)
+{
+    if (fields.size() != integers.size()) {
+        return false;
+    }
+    auto itFields = fields.begin();
+    auto itIntegers = integers.begin();
+    while (itFields != fields.end() and itIntegers != integers.end()) {
+        if (*itFields != *itIntegers) {
+            return false;
+        }
+        itFields++;
+        itIntegers++;
     }
     return true;
 }
@@ -96,18 +114,19 @@ std::vector<Field> Sudoku::getSquare(int nr) const
     return square;
 }
 
-std::vector<Field> Sudoku::getOptions(int row, int col) const
+std::set<Field> Sudoku::getOptions(int row, int col) const
 {
     if (this->getField(row, col) != 0) {
-        return vector<Field>{};
+        return set<Field>{};
     }
     auto rowFields = getRow( getRowNr(row, col) );
     auto colFields = getColumn( getColumnNr(row, col) );
     auto squareFields = getSquare( getSquareNr(row, col) );
 
-    auto allFields = rowFields;
-    allFields.insert(allFields.end(), colFields.begin(), colFields.end());
-    allFields.insert(allFields.end(), squareFields.begin(), squareFields.end());
+    set<Field>allFields;
+    allFields.insert(rowFields.begin(), rowFields.end());
+    allFields.insert(colFields.begin(), colFields.end());
+    allFields.insert(squareFields.begin(), squareFields.end());
     return getLackingValues(allFields);
 }
 
@@ -118,7 +137,7 @@ bool Sudoku::fillCertainFields()
         for (int col = 0; col < 9; ++col) {
             auto possibilities = this->getOptions(row, col);
             if (possibilities.size() == 1) {
-                sudokuBoard.at(row).at(col) = possibilities.at(0);
+                sudokuBoard.at(row).at(col) = *(possibilities.begin());
                 sthFilled = true;
             }
         }

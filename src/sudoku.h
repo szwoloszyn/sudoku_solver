@@ -14,7 +14,7 @@ constexpr std::size_t BOARD_SIZE =  9;
 #endif
 
 bool operator==(const std::vector<Field>& fields, const std::vector<int>& integers);
-
+bool operator==(const std::set<Field>& fields, const std::set<int>& integers);
 
 class Sudoku
 {
@@ -22,7 +22,7 @@ public:
     Sudoku();
     Sudoku(const std::vector<std::vector<int>>& numBoard);
     void printBoard() const;
-    std::vector<Field> getOptions(int row, int col) const;
+    std::set<Field> getOptions(int row, int col) const;
     bool fillCertainFields();
 
 

@@ -2,6 +2,7 @@
 #include "../src/sudoku.h"
 
 using std::vector;
+using std::set;
 
 class SudokuTest : public ::testing::Test
 {
@@ -65,13 +66,13 @@ TEST_F(SudokuTest, getOptions_works)
     // checks whether function returns correct values if called for empty cell
     int row = 3;
     int col = 5;
-    vector<Field> expectedOutcome = vector<Field>{1};
+    set<Field> expectedOutcome = set<Field>{1};
     ASSERT_EQ(complexBoard.getOptions(row, col), expectedOutcome);
 
     // checks whether function returns empty vector if called for fileld cell
     row = 0;
     col = 0;
-    ASSERT_EQ(complexBoard.getOptions(row, col), vector<Field>{});
+    ASSERT_EQ(complexBoard.getOptions(row, col), set<Field>{});
 }
 
 TEST_F(SudokuTest, fillCertainFields_work)
@@ -88,7 +89,7 @@ TEST_F(SudokuTest, fillCertainFields_work)
         {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
     };
     Sudoku expectedBoard{solvedBoard};
-    Sudoku testBoard = complexBoard; // shallow copy should do jeust fine
+    Sudoku testBoard = complexBoard; // shallow copy should do just fine
     auto testFlag = testBoard.fillCertainFields();
     ASSERT_EQ(testBoard.getBoard(), expectedBoard.getBoard());
     ASSERT_TRUE(testFlag);
