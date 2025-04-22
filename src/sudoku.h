@@ -23,8 +23,12 @@ public:
     Sudoku(const std::vector<std::vector<int>>& numBoard);
     void printBoard() const;
     std::set<Field> getOptions(int row, int col) const;
+    std::vector<std::set<Field>> getOptionsPerRow(int rowNr) const;
+    std::vector<std::set<Field>> getOptionsPerColumn(int colNr) const;
+    std::vector<std::set<Field>> getOptionsPerSquare(int squareNr) const;
     bool fillCertainFields();
-
+    bool iterateThroughStructures(); // structures = {rows, columns, squares} method is supposed to fill
+    // unconvenient fields where you have more than one option but can exclude rest by set_difference
 
 TESTABLE:
     Field getField(int row, int col) const{

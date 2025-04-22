@@ -3,6 +3,7 @@
 
 using std::vector;
 using std::set;
+using std::pair;
 
 bool operator==(const std::vector<Field>& fields, const std::vector<int>& integers)
 {
@@ -130,6 +131,42 @@ std::set<Field> Sudoku::getOptions(int row, int col) const
     return getLackingValues(allFields);
 }
 
+std::vector<std::set<Field>> Sudoku::getOptionsPerRow(int rowNr) const
+{
+    vector<set<Field>> options{};
+    for (int i = 0; i < 9; ++i) {
+        options.push_back(this->getOptions(rowNr, i));
+    }
+    return options;
+}
+
+std::vector<std::set<Field>> Sudoku::getOptionsPerColumn(int colNr) const
+{
+    vector<set<Field>> options{};
+    for (int i = 0; i < 9; ++i) {
+        options.push_back(this->getOptions(i, colNr));
+    }
+    return options;
+}
+
+std::vector<std::set<Field>> Sudoku::getOptionsPerSquare(int squareNr) const
+{
+    vector<set<Field>> options{};
+    int startCol = 3 * (squareNr%3);
+    int startRow = 3 * (squareNr/3);
+    int col = startCol;
+    int row = startRow;
+    for (int i = 0; i < 9; ++i) {
+        options.push_back(this->getOptions(row, col));
+        col++;
+        if (i%3 == 2) {
+            row++;
+            col = startCol;
+        }
+    }
+    return options;
+}
+
 bool Sudoku::fillCertainFields()
 {
     bool sthFilled = false;
@@ -142,11 +179,39 @@ bool Sudoku::fillCertainFields()
             }
         }
     }
-    std::cout << "galaz zbiorow!";
     return sthFilled;
 }
 
+bool Sudoku::iterateThroughStructures()
+{
+    bool sthFilled = false;
+    bool singleValuenserted = false;
+    // iterating through rows:
+    for (int rowNr = 0; rowNr < 9; ++rowNr) {
+        auto rowOptions = getOptionsPerRow(rowNr);
+        if (rowOptions.size() != 9) {
+            std::cerr << "WTF GOIN ON!!!";
+            return false;
+        }
+        vector<pair<set<Field>, int>> multiOptions;
+        for (int colNr = 0; colNr < 9; ++colNr) {
+            // checking whether already filled cell
+            if (rowOptions.at(colNr).size() == 0) {
+                continue;
+            }
+            // inserting certaing values
+            if (rowOptions.at(colNr).size() == 1) {
+                sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
+            }
+            else {
+                multiOptions.push_back(pair<set<Field>,int>(rowOptions.at(colNr), colNr));
+            }
+        }
+        // analyzing multiOptions, searching for unambiguous Fields' numbers
 
+    }
+    return sthFilled;
+}
 
 
 

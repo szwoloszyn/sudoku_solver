@@ -96,3 +96,30 @@ TEST_F(SudokuTest, fillCertainFields_work)
 }
 
 
+TEST_F(SudokuTest, geOptionsPerStructures_work)
+{
+    int row = 0;
+    vector<set<Field>> expectedRowResult = {
+        set<Field>{},  set<Field>{}, set<Field>{},
+        set<Field>{3}, set<Field>{}, set<Field>{},
+        set<Field>{6}, set<Field>{}, set<Field>{4}
+    };
+
+    int col = 2;
+    vector<set<Field>> expectedColResult = {
+        set<Field>{},  set<Field>{8}, set<Field>{},
+        set<Field>{4}, set<Field>{}, set<Field>{},
+        set<Field>{}, set<Field>{}, set<Field>{}
+    };
+
+    int square = 2;
+    vector<set<Field>> expectedSquareResult = {
+        set<Field>{6},  set<Field>{}, set<Field>{4},
+        set<Field>{}, set<Field>{9}, set<Field>{},
+        set<Field>{}, set<Field>{}, set<Field>{}
+    };
+    ASSERT_EQ(complexBoard.getOptionsPerRow(row), expectedRowResult);
+    ASSERT_EQ(complexBoard.getOptionsPerColumn(col), expectedColResult);
+    ASSERT_EQ(complexBoard.getOptionsPerSquare(square), expectedSquareResult);
+}
+
