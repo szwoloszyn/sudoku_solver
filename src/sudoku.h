@@ -2,7 +2,7 @@
 #define SUDOKU_H
 
 #include <vector>
-
+#include <map>
 #include "field.h"
 
 constexpr std::size_t BOARD_SIZE =  9;
@@ -29,6 +29,7 @@ public:
     bool fillCertainFields();
     bool iterateThroughStructures(); // structures = {rows, columns, squares} method is supposed to fill
     // unconvenient fields where you have more than one option but can exclude rest by set_difference
+    static std::map<int, Field> getUniqueValues(const std::vector<std::pair<std::set<Field>, int>>& multiOptions);
 
 TESTABLE:
     Field getField(int row, int col) const{
@@ -44,6 +45,7 @@ TESTABLE:
     std::vector<Field> getRow(int nr) const;
     std::vector<Field> getColumn(int nr) const;
     std::vector<Field> getSquare(int nr) const;
+
 
 
 private:

@@ -4,6 +4,7 @@
 using std::vector;
 using std::set;
 using std::pair;
+using std::map;
 
 bool operator==(const std::vector<Field>& fields, const std::vector<int>& integers)
 {
@@ -115,6 +116,57 @@ std::vector<Field> Sudoku::getSquare(int nr) const
     return square;
 }
 
+// NOTE: these functions should be deleted later on
+std::ostream& operator<<(std::ostream& os, const set<Field>& set) {
+    os << "{ ";
+    for (auto x : set) {
+        os << (int)x << " ";
+    }
+    os << "} \n";
+    return os;
+}
+void myOwnprintMap(const std::map<int, set<Field>>& m) {
+    for (const auto& [key, value] : m) {
+        std::cout << key << " : " << value << std::endl;
+    }
+}
+
+//FIXME failing tests, read prompt
+map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Field>, int> >& multiOptions)
+{
+    map<int, set<Field>> fieldsIdx;
+    map<Field, int> fieldsCount;
+    for (const auto& setWithIdx : multiOptions) {
+        for (auto iter = setWithIdx.first.begin(); iter != setWithIdx.first.end();) {
+            fieldsCount[*(iter)]++;
+            if (fieldsCount.at(*(iter)) == 1) {
+                fieldsIdx[setWithIdx.second].insert(*(iter));
+            }
+            else {
+                fieldsIdx[setWithIdx.second].erase(*(iter));
+            }
+            iter++;
+        }
+    }
+    //myOwnprintMap(fieldsIdx);
+    map<int, Field> output;
+    for (auto iter = fieldsIdx.begin(); iter != fieldsIdx.end();) {
+        if (iter->second.size() > 1 or iter->second.size() == 0) {
+            iter = fieldsIdx.erase(iter);
+        }
+        else if (iter->second.size() == 1) {
+            output[iter->first] = *(iter->second.begin());
+            iter++;
+        }
+        else {
+            std::cout << "tf going on";
+            return map<int, Field>{};
+        }
+    }
+    return output;
+}
+
+
 std::set<Field> Sudoku::getOptions(int row, int col) const
 {
     if (this->getField(row, col) != 0) {
@@ -182,6 +234,7 @@ bool Sudoku::fillCertainFields()
     return sthFilled;
 }
 
+// TODO columns and rows
 bool Sudoku::iterateThroughStructures()
 {
     bool sthFilled = false;
@@ -208,6 +261,7 @@ bool Sudoku::iterateThroughStructures()
             }
         }
         // analyzing multiOptions, searching for unambiguous Fields' numbers
+
 
     }
     return sthFilled;

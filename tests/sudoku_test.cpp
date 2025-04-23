@@ -3,6 +3,8 @@
 
 using std::vector;
 using std::set;
+using std::pair;
+using std::map;
 
 class SudokuTest : public ::testing::Test
 {
@@ -75,7 +77,7 @@ TEST_F(SudokuTest, getOptions_works)
     ASSERT_EQ(complexBoard.getOptions(row, col), set<Field>{});
 }
 
-TEST_F(SudokuTest, fillCertainFields_work)
+TEST_F(SudokuTest, fillCertainFields_works)
 {
     vector<vector<int>> solvedBoard{
         {7,9, 5, 3, 1, 8, 6, 2, 4},
@@ -96,7 +98,7 @@ TEST_F(SudokuTest, fillCertainFields_work)
 }
 
 
-TEST_F(SudokuTest, geOptionsPerStructures_work)
+TEST_F(SudokuTest, geOptionsPerStructures_works)
 {
     int row = 0;
     vector<set<Field>> expectedRowResult = {
@@ -123,3 +125,81 @@ TEST_F(SudokuTest, geOptionsPerStructures_work)
     ASSERT_EQ(complexBoard.getOptionsPerSquare(square), expectedSquareResult);
 }
 
+TEST_F(SudokuTest, getUniqueValues_works)
+{
+    vector<pair<set<Field>, int>> input0 = {
+        pair<set<Field>, int>{{1,6},1},
+        pair<set<Field>, int>{{6,1},2},
+        pair<set<Field>, int>{{2,6},7}
+    };
+    map<int, Field> expected0 = {
+        {7, Field{2}}
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input0), expected0);
+
+
+    vector<pair<set<Field>, int>> input1 = {
+        {{1, 2}, 0},
+        {{2, 3}, 1},
+        {{3, 4}, 2},
+        {{4, 5}, 3}
+    };
+
+    map<int, Field> expected1 = {
+        {0, Field{1}},
+        {3, Field{5}}
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input1), expected1);
+
+
+    vector<pair<set<Field>, int>> input2 = {
+        {{1, 2}, 0},
+        {{1, 2}, 1},
+        {{1, 2}, 2}
+    };
+
+    map<int, Field> expected2 = { };
+    ASSERT_EQ(Sudoku::getUniqueValues(input2), expected2);
+
+
+    vector<pair<set<Field>, int>> input3 = {
+        {{1}, 0},
+        {{1, 2}, 1},
+        {{3}, 2},
+        {{2}, 3}
+    };
+
+    map<int, Field> expected3 = {
+        {2, Field{3}}
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input3), expected3);
+
+
+    vector<pair<set<Field>, int>> input4 = {
+        {{1, 2, 3}, 0},
+        {{2, 3, 4}, 1},
+        {{3, 4, 5}, 2},
+        {{4, 5, 6}, 3},
+        {{5, 6, 7}, 4}
+    };
+
+    map<int, Field> expected4 = {
+        {0, Field{1}},
+        {4, Field{7}}
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input4), expected4);
+
+
+    vector<pair<set<Field>, int>> input5 = {
+        {{}, 0},
+        {{1, 2}, 1},
+        {{2, 3}, 2}
+    };
+
+    map<int, Field> expected5 = {
+        {1, Field{1}},
+        {2, Field{3}}
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input5), expected5);
+
+}
