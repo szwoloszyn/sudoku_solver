@@ -144,6 +144,8 @@ map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Fie
             }
             else {
                 // BUG THIS IS WRONG !!! debuging in notebook
+                // solution: iterate through whole fieldsIdx and erase
+                // what needs to be erased
                 fieldsIdx[setWithIdx.second].erase(*(iter));
             }
             iter++;
