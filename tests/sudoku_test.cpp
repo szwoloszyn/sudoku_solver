@@ -77,6 +77,7 @@ TEST_F(SudokuTest, getOptions_works)
     ASSERT_EQ(complexBoard.getOptions(row, col), set<Field>{});
 }
 
+// BUG THIS TEST NOT RUNNING ???
 TEST_F(SudokuTest, fillCertainFields_works)
 {
     vector<vector<int>> solvedBoard{
