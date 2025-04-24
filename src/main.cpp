@@ -10,18 +10,18 @@ int main()
 {
     vector<vector<int>> b{
         {7,9, 5, 0, 1, 8, 0, 2, 0},
-        {1, 6, 0, 4, 0, 2, 7, 0, 3},
-        { 3, 4, 2, 9, 7, 6, 5, 1, 8},
-        { 9, 0, 0, 6, 8, 0, 3, 0, 7},
-        { 5, 7, 3, 2, 4, 9, 1, 8, 6},
+        {1, 6, 0, 4, 0, 0, 7, 0, 3},
+        { 3, 0, 2, 9, 7, 6, 5, 1, 8},
+        { 9, 0, 0, 0, 8, 0, 3, 0, 7},
+        { 0, 7, 3, 2, 4, 9, 0, 8, 0},
         {8, 1, 6, 0, 3, 7, 9, 4, 2},
-        {4, 8, 9, 7, 6, 5, 2, 3, 1},
-        {6, 5, 1, 8, 2, 0, 4, 7, 9},
-        {2, 3, 7, 1, 9, 4, 8, 6, 5}  // latwe
+        {0, 8, 9, 7, 6, 5, 2, 3, 1},
+        {6, 5, 0, 8, 2, 0, 4, 7, 0},
+        {2, 0, 7, 0, 0, 4, 8, 6, 0}  // latwe
     };
     Sudoku myBoard(b);
     myBoard.printBoard();
-    myBoard.solveSudoku();
+    while(myBoard.fillCertainFields()) {}
     std::cout << "\n=====\n";
     myBoard.printBoard();
 
@@ -39,9 +39,31 @@ int main()
     Sudoku test1(c);
     std::cout << "\n\n";
     test1.printBoard();
-    test1.solveSudoku();
+    //test1.solveSudoku();
     std::cout << "\n=====\n";
-    test1.printBoard();
+    //test1.fillCertainFields();
+      test1.printBoard();
+
+
+      vector<vector<int>> sudokuEasy = {
+          {0, 0, 4, 0, 0, 1, 6, 0, 2},
+          {5, 0, 0, 4, 0, 9, 0, 3, 0},
+          {0, 1, 3, 2, 8, 0, 0, 0, 0},
+          {0, 0, 0, 7, 0, 4, 9, 0, 8},
+          {4, 2, 9, 8, 1, 5, 7, 6, 3},
+          {0, 7, 8, 0, 0, 2, 0, 0, 0},
+          {8, 3, 2, 9, 4, 6, 1, 5, 7},
+          {0, 4, 0, 0, 2, 0, 0, 9, 0},
+          {1, 0, 0, 7, 0, 0, 0, 0, 4}
+      };
+
+      std::cout << "\n\n\n";
+    Sudoku test2(sudokuEasy);
+    test2.printBoard();
+    //test2.iterateThroughStructures();
+    std::cout << "\n";
+    test2.printBoard();
+//test1.printBoard();
 //    myBoard.fillCertainFields();
 //    myBoard.printBoard();
 

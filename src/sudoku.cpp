@@ -172,7 +172,7 @@ map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Fie
 
 std::set<Field> Sudoku::getOptions(int row, int col) const
 {
-    if (this->getField(row, col) != 0) {
+    if (!this->getField(row, col).isBlank()) {
         return set<Field>{};
     }
     auto rowFields = getRow( getRowNr(row, col) );
@@ -227,8 +227,12 @@ bool Sudoku::fillCertainFields()
     bool sthFilled = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
+            if (col == 2 and row == 5) {
+                int a = 1;
+            }
             auto possibilities = this->getOptions(row, col);
             if (possibilities.size() == 1) {
+                std::cout << "$";
                 sudokuBoard.at(row).at(col) = *(possibilities.begin());
                 sthFilled = true;
             }
@@ -239,6 +243,8 @@ bool Sudoku::fillCertainFields()
 
 bool Sudoku::iterateThroughStructures()
 {
+    //std::cout << "#";
+
     bool sthFilled = false;
     // iterating through rows:
     for (int rowNr = 0; rowNr < 9; ++rowNr) {
@@ -255,7 +261,7 @@ bool Sudoku::iterateThroughStructures()
             }
             // inserting certaing values
             if (rowOptions.at(colNr).size() == 1) {
-                sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
+                //sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
                 sthFilled = true;
             }
             else {
@@ -269,6 +275,7 @@ bool Sudoku::iterateThroughStructures()
                 std::cerr << "tfff";
                 return false;
             }
+            std::cout << "#";
             this->sudokuBoard.at(rowNr).at(element.first) = element.second;
             sthFilled = true;
         }
@@ -287,7 +294,7 @@ bool Sudoku::iterateThroughStructures()
                 continue;
             }
             if (colOptions.at(rowNr).size() == 1) {
-                this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
+                //this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
                 sthFilled = true;
             }
             else {
@@ -300,10 +307,10 @@ bool Sudoku::iterateThroughStructures()
                 std::cerr << "tfff";
                 return false;
             }
+            std::cout << "#";
             this->sudokuBoard.at(element.first).at(colNr) = element.second;
             sthFilled = true;
         }
-
     }
 
     //TODO iterating through squares
@@ -313,10 +320,11 @@ bool Sudoku::iterateThroughStructures()
 bool Sudoku::solveSudoku()
 {
     do {
-        while(fillCertainFields()) {
-        }
+        //while(fillCertainFields()) {
+        //}
     }while (iterateThroughStructures());
     return true;
+    while(fillCertainFields()) {}
 }
 
 
