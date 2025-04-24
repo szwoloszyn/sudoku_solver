@@ -28,4 +28,16 @@ int main()
     std::cout << "\n=====\n";
     myBoard.fillCertainFields();
     myBoard.printBoard();
+
+    std::cout << "\n=====\n";
+    vector<pair<set<Field>, int>> input = {
+        pair<set<Field>, int>{{1,6},1},
+        pair<set<Field>, int>{{6,1},2},
+        pair<set<Field>, int>{{2,6},7}
+    };
+    auto got = Sudoku::getUniqueValues(input);
+    for (auto x : got) {
+        std::cout << x.first << " $ " << (int)x.second << "\n";
+    }
+
 }

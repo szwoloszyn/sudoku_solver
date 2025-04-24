@@ -16,8 +16,6 @@ Field::Field() : blank{true} , value{0}
 
 Field::Field(int a) : blank{false}
 {
-
-    // TODO MISTAKE
     if (a == 0) {
         this->blank = true;
         this->value = 0;
@@ -30,7 +28,7 @@ Field::Field(int a) : blank{false}
     this->value = a;
 }
 
-// WARNING: this function will return 0 when Field is blank
+// NOTE: this function will return 0 when Field is blank
 int Field::getFieldValue() const
 {
     return this->value;
@@ -41,7 +39,7 @@ bool Field::isBlank() const
     return blank;
 }
 
-// WARNING: comparators will always return true (== false) when called on blank field !
+// NOTE: comparators will always return true (== false) when called on blank field !
 bool Field::operator>(const Field &comp) const
 {
     return this->value > comp.value;

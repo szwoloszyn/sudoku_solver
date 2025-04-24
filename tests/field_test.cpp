@@ -42,7 +42,6 @@ TEST_F(FieldTest, comparatorsWork)
     anotherExample = 0;
     ASSERT_TRUE(anotherExample.isBlank());
 
-    // TODO FAILING THESE TESTS
     Field lastExample = 0;
     //ASSERT_TRUE(lastExample.isBlank());
     ASSERT_EQ(lastExample.getFieldValue(), 0);
