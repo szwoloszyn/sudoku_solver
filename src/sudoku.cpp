@@ -143,6 +143,7 @@ map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Fie
                 fieldsIdx[setWithIdx.second].insert(*(iter));
             }
             else {
+                // BUG THIS IS WRONG !!! debuging in notebook
                 fieldsIdx[setWithIdx.second].erase(*(iter));
             }
             iter++;
