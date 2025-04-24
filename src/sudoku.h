@@ -30,6 +30,7 @@ public:
     bool iterateThroughStructures(); // structures = {rows, columns, squares} method is supposed to fill
     // unconvenient fields where you have more than one option but can exclude rest by set_difference
     static std::map<int, Field> getUniqueValues(const std::vector<std::pair<std::set<Field>, int>>& multiOptions);
+    bool solveSudoku();
 
 TESTABLE:
     Field getField(int row, int col) const{

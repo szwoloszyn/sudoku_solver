@@ -131,7 +131,6 @@ void myOwnprintMap(const std::map<int, set<Field>>& m) {
     }
 }
 
-//FIXME failing tests, read prompt
 map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Field>, int> >& multiOptions)
 {
     map<int, set<Field>> fieldsIdx;
@@ -143,9 +142,10 @@ map<int, Field> Sudoku::getUniqueValues(const std::vector<std::pair<std::set<Fie
                 fieldsIdx[setWithIdx.second].insert(*(iter));
             }
             else {
-                // BUG THIS IS WRONG !!! debuging in notebook
-                // solution: iterate through whole fieldsIdx and erase
-                // what needs to be erased
+                for (auto& idx_field : fieldsIdx ) {
+                    idx_field.second.erase(*(iter));
+                }
+
                 fieldsIdx[setWithIdx.second].erase(*(iter));
             }
             iter++;
@@ -237,11 +237,9 @@ bool Sudoku::fillCertainFields()
     return sthFilled;
 }
 
-// TODO columns and rows
 bool Sudoku::iterateThroughStructures()
 {
     bool sthFilled = false;
-    bool singleValuenserted = false;
     // iterating through rows:
     for (int rowNr = 0; rowNr < 9; ++rowNr) {
         auto rowOptions = getOptionsPerRow(rowNr);
@@ -258,18 +256,67 @@ bool Sudoku::iterateThroughStructures()
             // inserting certaing values
             if (rowOptions.at(colNr).size() == 1) {
                 sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
+                sthFilled = true;
             }
             else {
                 multiOptions.push_back(pair<set<Field>,int>(rowOptions.at(colNr), colNr));
             }
         }
         // analyzing multiOptions, searching for unambiguous Fields' numbers
+        auto fieldsToInsert = Sudoku::getUniqueValues(multiOptions);
+        for (const auto& element : fieldsToInsert) {
+            if (this->sudokuBoard.at(rowNr).at(element.first) != Field{0}) {
+                std::cerr << "tfff";
+                return false;
+            }
+            this->sudokuBoard.at(rowNr).at(element.first) = element.second;
+            sthFilled = true;
+        }
+    }
 
+    //iterating through columns
+    for (int colNr = 0; colNr < 9; ++colNr) {
+        auto colOptions = getOptionsPerColumn(colNr);
+        if (colOptions.size() != 9) {
+            std::cerr << "WTF GOIN ON!!!";
+            return false;
+        }
+        vector<pair<set<Field>, int>> multiOptions;
+        for (int rowNr = 0; rowNr < 9; ++rowNr) {
+            if (colOptions.at(rowNr).size() == 0) {
+                continue;
+            }
+            if (colOptions.at(rowNr).size() == 1) {
+                this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
+                sthFilled = true;
+            }
+            else {
+                multiOptions.push_back(pair<set<Field>,int>(colOptions.at(rowNr), rowNr));
+            }
+        }
+        auto fieldsToInsert = Sudoku::getUniqueValues(multiOptions);
+        for (const auto& element : fieldsToInsert) {
+            if (this->sudokuBoard.at(element.first).at(colNr) != Field{0}) {
+                std::cerr << "tfff";
+                return false;
+            }
+            this->sudokuBoard.at(element.first).at(colNr) = element.second;
+            sthFilled = true;
+        }
 
     }
+
+    //TODO iterating through squares
     return sthFilled;
 }
 
-
+bool Sudoku::solveSudoku()
+{
+    do {
+        while(fillCertainFields()) {
+        }
+    }while (iterateThroughStructures());
+    return true;
+}
 
 

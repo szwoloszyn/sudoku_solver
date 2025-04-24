@@ -21,23 +21,39 @@ int main()
     };
     Sudoku myBoard(b);
     myBoard.printBoard();
-    auto x = myBoard.getOptions(3,2);
-    for (auto i : x) {
-        std::cout << i.getFieldValue() << " ";
-    }
+    myBoard.solveSudoku();
     std::cout << "\n=====\n";
-    myBoard.fillCertainFields();
     myBoard.printBoard();
 
-    std::cout << "\n=====\n";
-    vector<pair<set<Field>, int>> input = {
-        pair<set<Field>, int>{{1,6},1},
-        pair<set<Field>, int>{{6,1},2},
-        pair<set<Field>, int>{{2,6},7}
+    vector<vector<int>> c{
+        {7,0, 5, 3, 0, 8, 6, 0, 4},
+        {1, 0, 0, 4, 0, 2, 0, 0, 3},
+        {0, 0, 2, 0, 0, 0, 5, 0, 0},
+        { 0, 0, 4, 6, 0, 1, 3, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 6, 5, 0, 7, 9, 0, 0},
+        {0, 0, 9, 0, 0, 0, 2, 0, 0},
+        {6, 0, 0, 8, 0, 3, 0, 0, 9},
+        {2, 0, 7, 1, 0, 4, 8, 0, 5} // nr1
     };
-    auto got = Sudoku::getUniqueValues(input);
-    for (auto x : got) {
-        std::cout << x.first << " $ " << (int)x.second << "\n";
-    }
+    Sudoku test1(c);
+    std::cout << "\n\n";
+    test1.printBoard();
+    test1.solveSudoku();
+    std::cout << "\n=====\n";
+    test1.printBoard();
+//    myBoard.fillCertainFields();
+//    myBoard.printBoard();
+
+//    std::cout << "\n=====\n";
+//    vector<pair<set<Field>, int>> input5 = {
+//        {{}, 0},
+//        {{1, 2}, 1},
+//        {{2, 3}, 2}
+//    };
+//    auto got = Sudoku::getUniqueValues(input5);
+//    for (auto x : got) {
+//        std::cout << x.first << " $ " << (int)x.second << "\n";
+//    }
 
 }

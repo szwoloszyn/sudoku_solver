@@ -201,5 +201,10 @@ TEST_F(SudokuTest, getUniqueValues_works)
         {2, Field{3}}
     };
     ASSERT_EQ(Sudoku::getUniqueValues(input5), expected5);
+    vector<pair<set<Field>, int>> input6 = {
+    };
 
+    map<int, Field> expected6 = {
+    };
+    ASSERT_EQ(Sudoku::getUniqueValues(input6), expected6);
 }
