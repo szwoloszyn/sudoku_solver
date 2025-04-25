@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <unistd.h> // for std::sleep()
 #include "sudoku.h"
 using namespace std;
 
@@ -39,7 +39,7 @@ int main()
     Sudoku test1(c);
     std::cout << "\n\n";
     test1.printBoard();
-    //test1.solveSudoku();
+    test1.iterateThroughStructures();
     std::cout << "\n=====\n";
     //test1.fillCertainFields();
       test1.printBoard();
@@ -60,9 +60,31 @@ int main()
       std::cout << "\n\n\n";
     Sudoku test2(sudokuEasy);
     test2.printBoard();
-    //test2.iterateThroughStructures();
+    while (test2.fillCertainFields()) {
+        test2.printBoard();
+        std::cout << "\n-----\n";
+        //sleep(1);
+    }
     std::cout << "\n";
     test2.printBoard();
+
+
+    std::vector<std::vector<int>> grid = {
+        {0, 8, 4, 5, 3, 1, 6, 7, 2},
+        {5, 6, 7, 4, 0, 9, 8, 3, 1},
+        {9, 1, 3, 2, 8, 7, 5, 4, 0},
+        {3, 5, 1, 7, 6, 4, 9, 2, 8},
+        {4, 2, 9, 8, 1, 5, 7, 6, 3},
+        {6, 7, 8, 3, 9, 2, 4, 1, 5},
+        {8, 3, 2, 9, 4, 6, 1, 5, 7},
+        {7, 4, 5, 1, 2, 8, 3, 9, 6},
+        {1, 9, 6, 7, 5, 3, 2, 8, 4}
+    };
+    Sudoku test3(grid);
+    // BUG THIS SUDOKU IS FALSE !!!!!
+    test3.fillCertainFields();
+    cout << "\n";
+    test3.printBoard();
 //test1.printBoard();
 //    myBoard.fillCertainFields();
 //    myBoard.printBoard();

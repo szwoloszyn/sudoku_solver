@@ -261,7 +261,7 @@ bool Sudoku::iterateThroughStructures()
             }
             // inserting certaing values
             if (rowOptions.at(colNr).size() == 1) {
-                //sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
+                sudokuBoard.at(rowNr).at(colNr) = *(rowOptions.at(colNr).begin());
                 sthFilled = true;
             }
             else {
@@ -294,7 +294,7 @@ bool Sudoku::iterateThroughStructures()
                 continue;
             }
             if (colOptions.at(rowNr).size() == 1) {
-                //this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
+                this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
                 sthFilled = true;
             }
             else {

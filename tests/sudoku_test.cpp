@@ -91,11 +91,38 @@ TEST_F(SudokuTest, fillCertainFields_works)
         {6, 5, 1, 8, 2, 3, 4, 7, 9},
         {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
     };
+
     Sudoku expectedBoard{solvedBoard};
     Sudoku testBoard = complexBoard; // shallow copy should do just fine
     auto testFlag = testBoard.fillCertainFields();
     ASSERT_EQ(testBoard.getBoard(), expectedBoard.getBoard());
     ASSERT_TRUE(testFlag);
+
+
+    std::vector<std::vector<int>> grid = {
+        {0, 8, 4, 5, 3, 1, 6, 7, 2},
+        {5, 6, 7, 4, 0, 9, 8, 3, 1},
+        {9, 1, 3, 2, 8, 7, 5, 4, 0},
+        {3, 5, 1, 7, 6, 4, 9, 2, 8},
+        {4, 2, 9, 8, 1, 5, 7, 6, 3},
+        {6, 7, 8, 3, 9, 2, 4, 1, 5},
+        {8, 3, 2, 9, 4, 6, 1, 5, 7},
+        {7, 4, 5, 1, 2, 8, 3, 9, 6},
+        {1, 9, 6, 7, 5, 3, 2, 8, 4}
+    };
+    Sudoku test2{grid};
+    std::vector<std::vector<int>> solvedGrid = {
+        {2, 8, 4, 5, 3, 1, 6, 7, 2},
+        {5, 6, 7, 4, 0, 9, 8, 3, 1},
+        {9, 1, 3, 2, 8, 7, 5, 4, 0},
+        {3, 5, 1, 7, 6, 4, 9, 2, 8},
+        {4, 2, 9, 8, 1, 5, 7, 6, 3},
+        {6, 7, 8, 3, 9, 2, 4, 1, 5},
+        {8, 3, 2, 9, 4, 6, 1, 5, 7},
+        {7, 4, 5, 1, 2, 8, 3, 9, 6},
+        {1, 9, 6, 7, 5, 3, 2, 8, 4}
+    };
+
 }
 
 
