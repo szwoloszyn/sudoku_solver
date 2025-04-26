@@ -25,79 +25,97 @@ int main()
     std::cout << "\n=====\n";
     myBoard.printBoard();
 
-    vector<vector<int>> c{
-        {7,0, 5, 3, 0, 8, 6, 0, 4},
-        {1, 0, 0, 4, 0, 2, 0, 0, 3},
-        {0, 0, 2, 0, 0, 0, 5, 0, 0},
-        { 0, 0, 4, 6, 0, 1, 3, 0, 0},
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 6, 5, 0, 7, 9, 0, 0},
-        {0, 0, 9, 0, 0, 0, 2, 0, 0},
-        {6, 0, 0, 8, 0, 3, 0, 0, 9},
-        {2, 0, 7, 1, 0, 4, 8, 0, 5} // nr1
+    // solvable only with fillCertainFields()
+    vector<vector<int>> easyGrid = {
+        {1, 0, 0, 4, 8, 9, 0, 0, 6},
+        {7, 3, 0, 0, 0, 0, 0, 4, 0},
+        {0, 0, 0, 0, 0, 1, 2, 9, 5},
+        {0, 0, 7, 1, 2, 0, 6, 0, 0},
+        {5, 0, 0, 7, 0, 3, 0, 0, 8},
+        {0, 0, 6, 0, 9, 5, 7, 0, 0},
+        {9, 1, 4, 6, 0, 0, 0, 0, 0},
+        {0, 2, 0, 0, 0, 0, 0, 3, 7},
+        {8, 0, 0, 5, 1, 2, 0, 0, 4}
     };
-    Sudoku test1(c);
+
+
+
+    vector<vector<int>> easyGridSolved = {
+        {1, 5, 2, 4, 8, 9, 3, 7, 6},
+        {7, 3, 9, 2, 5, 6, 8, 4, 1},
+        {4, 6, 8, 3, 7, 1, 2, 9, 5},
+        {3, 8, 7, 1, 2, 4, 6, 5, 9},
+        {5, 9, 1, 7, 6, 3, 4, 2, 8},
+        {2, 4, 6, 8, 9, 5, 7, 1, 3},
+        {9, 1, 4, 6, 3, 7, 5, 8, 2},
+        {6, 2, 5, 9, 4, 8, 1, 3, 7},
+        {8, 7, 3, 5, 1, 2, 9, 6, 4}
+    };
+    Sudoku test1(easyGrid);
     std::cout << "\n\n";
     test1.printBoard();
-    test1.iterateThroughStructures();
+
     std::cout << "\n=====\n";
-    //test1.fillCertainFields();
-      test1.printBoard();
-
-
-      vector<vector<int>> sudokuEasy = {
-          {0, 0, 4, 0, 0, 1, 6, 0, 2},
-          {5, 0, 0, 4, 0, 9, 0, 3, 0},
-          {0, 1, 3, 2, 8, 0, 0, 0, 0},
-          {0, 0, 0, 7, 0, 4, 9, 0, 8},
-          {4, 2, 9, 8, 1, 5, 7, 6, 3},
-          {0, 7, 8, 0, 0, 2, 0, 0, 0},
-          {8, 3, 2, 9, 4, 6, 1, 5, 7},
-          {0, 4, 0, 0, 2, 0, 0, 9, 0},
-          {1, 0, 0, 7, 0, 0, 0, 0, 4}
-      };
-
-      std::cout << "\n\n\n";
-    Sudoku test2(sudokuEasy);
-    test2.printBoard();
-    while (test2.fillCertainFields()) {
-        test2.printBoard();
-        std::cout << "\n-----\n";
-        //sleep(1);
+    while (test1.fillCertainFields()) {}
+    if (!test1.isSolved()) {
+        std::cout << "INVALID SUDOKU BOARD!!!\n";
     }
-    std::cout << "\n";
+    else {
+        cout << "ALL GOOD\n";
+
+    }
+    test1.printBoard();
+
+    std::cout << "\nINTERMEDIATE: \n\n";
+    vector<vector<int>> intermediateGrid = {
+        {0, 2, 0, 6, 0, 8, 0, 0, 0},
+        {5, 8, 0, 2, 3, 9, 7, 0, 1},
+        {0, 0, 0, 0, 4, 0, 0, 0, 0},
+        {3, 7, 0, 4, 6, 1, 5, 0, 0},
+        {6, 0, 0, 0, 0, 0, 0, 0, 4},
+        {0, 0, 8, 0, 0, 0, 0, 1, 3},
+        {8, 0, 0, 0, 2, 0, 0, 0, 0},
+        {0, 0, 9, 8, 5, 0, 4, 3, 6},
+        {0, 4, 0, 3, 0, 6, 0, 9, 0}
+    };
+
+    vector<vector<int>> intermediateGridSolved = {
+        {1, 2, 3, 6, 7, 8, 9, 4, 5},
+        {5, 8, 4, 2, 3, 9, 7, 6, 1},
+        {9, 6, 7, 1, 4, 5, 3, 2, 8},
+        {3, 7, 2, 4, 6, 1, 5, 8, 9},
+        {6, 9, 1, 5, 8, 3, 2, 7, 4},
+        {4, 5, 8, 7, 9, 2, 6, 1, 3},
+        {8, 3, 6, 9, 2, 4, 1, 5, 7},
+        {2, 1, 9, 8, 5, 7, 4, 3, 6},
+        {7, 4, 5, 3, 1, 6, 8, 9, 2}
+    };
+    Sudoku test2(intermediateGrid);
+    while (test2.iterateThroughStructures()) {
+
+        while (test2.fillCertainFields()) {
+            if (!test2.isValid()) {
+                std::cout << "SUDOKU FAILED! Printing current state: \n";
+                test2.printBoard();
+                return 0;
+            }
+        }
+    }
+    bool flag1 = test2.iterateThroughStructures();
+    bool flag2 = test2.fillCertainFields();
+    if (!(flag1 or flag2)) {
+        std::cout << "rzeczywiscie";
+    }
     test2.printBoard();
 
-
-    std::vector<std::vector<int>> grid = {
-        {0, 8, 4, 5, 3, 1, 6, 7, 2},
-        {5, 6, 7, 4, 0, 9, 8, 3, 1},
-        {9, 1, 3, 2, 8, 7, 5, 4, 0},
-        {3, 5, 1, 7, 6, 4, 9, 2, 8},
-        {4, 2, 9, 8, 1, 5, 7, 6, 3},
-        {6, 7, 8, 3, 9, 2, 4, 1, 5},
-        {8, 3, 2, 9, 4, 6, 1, 5, 7},
-        {7, 4, 5, 1, 2, 8, 3, 9, 6},
-        {1, 9, 6, 7, 5, 3, 2, 8, 4}
-    };
-    Sudoku test3(grid);
-    // BUG THIS SUDOKU IS FALSE !!!!!
-    test3.fillCertainFields();
-    cout << "\n";
-    test3.printBoard();
-//test1.printBoard();
-//    myBoard.fillCertainFields();
-//    myBoard.printBoard();
-
-//    std::cout << "\n=====\n";
-//    vector<pair<set<Field>, int>> input5 = {
-//        {{}, 0},
-//        {{1, 2}, 1},
-//        {{2, 3}, 2}
-//    };
-//    auto got = Sudoku::getUniqueValues(input5);
-//    for (auto x : got) {
-//        std::cout << x.first << " $ " << (int)x.second << "\n";
-//    }
 
 }
+
+/*
+ * option 1: creating multiOptions vector is incorrect
+ * option 2: getUniqueValues method is incorrect (to be checked with tests on intermediate grid)
+ * option 3: filling (place where if) is incorrect. highly doubtable
+ *
+ * FIXME CONCLUSION OPTION 2 IS CORRECT - TO BE CONTINUED
+*/
+

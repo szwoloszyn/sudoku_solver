@@ -11,6 +11,13 @@ class SudokuTest : public ::testing::Test
 protected:
     Sudoku board;
     Sudoku complexBoard;
+    Sudoku complexBoardSolved;
+
+    Sudoku easy;
+    Sudoku intermediate;
+    Sudoku easySolved;
+    Sudoku intermediateSolved;
+
     void SetUp() override {
         vector<vector<int>> a(9,std::vector<int>{1,2,3,0,5,0,7,8,9});
         board = Sudoku(a);
@@ -24,9 +31,74 @@ protected:
             {8, 1, 6, 5, 3, 7, 9, 4, 2},
             {4, 8, 9, 7, 6, 5, 2, 3, 1},
             {6, 5, 1, 8, 2, 3, 4, 7, 9},
-            {2, 3, 7, 1, 9, 4, 8, 6, 5}  // latwe
+            {2, 3, 7, 1, 9, 4, 8, 6, 5}  // very easy - for default tests
         };
         complexBoard = Sudoku(b);
+
+        vector<vector<int>> solvedGrid{
+            {7,9, 5, 3, 1, 8, 6, 2, 4},
+            {1, 6, 8, 4, 5, 2, 7, 9, 3},
+            { 3, 4, 2, 9, 7, 6, 5, 1, 8},
+            { 9, 2, 4, 6, 8, 1, 3, 5, 7},
+            { 5, 7, 3, 2, 4, 9, 1, 8, 6},
+            {8, 1, 6, 5, 3, 7, 9, 4, 2},
+            {4, 8, 9, 7, 6, 5, 2, 3, 1},
+            {6, 5, 1, 8, 2, 3, 4, 7, 9},
+            {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
+        };
+        complexBoardSolved = Sudoku(solvedGrid);
+
+        vector<vector<int>> easyGrid = {
+            {1, 0, 0, 4, 8, 9, 0, 0, 6},
+            {7, 3, 0, 0, 0, 0, 0, 4, 0},
+            {0, 0, 0, 0, 0, 1, 2, 9, 5},
+            {0, 0, 7, 1, 2, 0, 6, 0, 0},
+            {5, 0, 0, 7, 0, 3, 0, 0, 8},
+            {0, 0, 6, 0, 9, 5, 7, 0, 0},
+            {9, 1, 4, 6, 0, 0, 0, 0, 0},
+            {0, 2, 0, 0, 0, 0, 0, 3, 7},
+            {8, 0, 0, 5, 1, 2, 0, 0, 4}
+        };
+        easy = Sudoku(easyGrid);
+
+        vector<vector<int>> easyGridSolved = {
+            {1, 5, 2, 4, 8, 9, 3, 7, 6},
+            {7, 3, 9, 2, 5, 6, 8, 4, 1},
+            {4, 6, 8, 3, 7, 1, 2, 9, 5},
+            {3, 8, 7, 1, 2, 4, 6, 5, 9},
+            {5, 9, 1, 7, 6, 3, 4, 2, 8},
+            {2, 4, 6, 8, 9, 5, 7, 1, 3},
+            {9, 1, 4, 6, 3, 7, 5, 8, 2},
+            {6, 2, 5, 9, 4, 8, 1, 3, 7},
+            {8, 7, 3, 5, 1, 2, 9, 6, 4}
+        };
+        easySolved = Sudoku(easyGridSolved);
+
+        vector<vector<int>> intermediateGrid = {
+            {0, 2, 0, 6, 0, 8, 0, 0, 0},
+            {5, 8, 0, 2, 3, 9, 7, 0, 1},
+            {0, 0, 0, 0, 4, 0, 0, 0, 0},
+            {3, 7, 0, 0, 0, 0, 5, 0, 0},
+            {6, 0, 0, 0, 0, 0, 0, 0, 4},
+            {0, 0, 8, 0, 0, 0, 0, 1, 3},
+            {0, 0, 0, 0, 2, 0, 0, 0, 0},
+            {0, 0, 9, 8, 0, 0, 0, 3, 6},
+            {0, 0, 0, 3, 0, 6, 0, 9, 0}
+        };
+        intermediate = Sudoku(intermediateGrid);
+
+        vector<vector<int>> intermediateGridSolved = {
+            {1, 2, 3, 6, 7, 8, 9, 4, 5},
+            {5, 8, 4, 2, 3, 9, 7, 6, 1},
+            {9, 6, 7, 1, 4, 5, 3, 2, 8},
+            {3, 7, 2, 4, 6, 1, 5, 8, 9},
+            {6, 9, 1, 5, 8, 3, 2, 7, 4},
+            {4, 5, 8, 7, 9, 2, 6, 1, 3},
+            {8, 3, 6, 9, 2, 4, 1, 5, 7},
+            {2, 1, 9, 8, 5, 7, 4, 3, 6},
+            {7, 4, 5, 3, 1, 6, 8, 9, 2}
+        };
+        intermediateSolved = Sudoku(intermediateGridSolved);
     }
 };
 
@@ -77,52 +149,17 @@ TEST_F(SudokuTest, getOptions_works)
     ASSERT_EQ(complexBoard.getOptions(row, col), set<Field>{});
 }
 
-// BUG THIS TEST NOT RUNNING ???
 TEST_F(SudokuTest, fillCertainFields_works)
 {
-    vector<vector<int>> solvedBoard{
-        {7,9, 5, 3, 1, 8, 6, 2, 4},
-        {1, 6, 8, 4, 5, 2, 7, 9, 3},
-        { 3, 4, 2, 9, 7, 6, 5, 1, 8},
-        { 9, 2, 4, 6, 8, 1, 3, 5, 7},
-        { 5, 7, 3, 2, 4, 9, 1, 8, 6},
-        {8, 1, 6, 5, 3, 7, 9, 4, 2},
-        {4, 8, 9, 7, 6, 5, 2, 3, 1},
-        {6, 5, 1, 8, 2, 3, 4, 7, 9},
-        {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
-    };
-
-    Sudoku expectedBoard{solvedBoard};
+    Sudoku expectedBoard{this->complexBoardSolved};
     Sudoku testBoard = complexBoard; // shallow copy should do just fine
     auto testFlag = testBoard.fillCertainFields();
     ASSERT_EQ(testBoard.getBoard(), expectedBoard.getBoard());
     ASSERT_TRUE(testFlag);
 
-
-    std::vector<std::vector<int>> grid = {
-        {0, 8, 4, 5, 3, 1, 6, 7, 2},
-        {5, 6, 7, 4, 0, 9, 8, 3, 1},
-        {9, 1, 3, 2, 8, 7, 5, 4, 0},
-        {3, 5, 1, 7, 6, 4, 9, 2, 8},
-        {4, 2, 9, 8, 1, 5, 7, 6, 3},
-        {6, 7, 8, 3, 9, 2, 4, 1, 5},
-        {8, 3, 2, 9, 4, 6, 1, 5, 7},
-        {7, 4, 5, 1, 2, 8, 3, 9, 6},
-        {1, 9, 6, 7, 5, 3, 2, 8, 4}
-    };
-    Sudoku test2{grid};
-    std::vector<std::vector<int>> solvedGrid = {
-        {2, 8, 4, 5, 3, 1, 6, 7, 2},
-        {5, 6, 7, 4, 0, 9, 8, 3, 1},
-        {9, 1, 3, 2, 8, 7, 5, 4, 0},
-        {3, 5, 1, 7, 6, 4, 9, 2, 8},
-        {4, 2, 9, 8, 1, 5, 7, 6, 3},
-        {6, 7, 8, 3, 9, 2, 4, 1, 5},
-        {8, 3, 2, 9, 4, 6, 1, 5, 7},
-        {7, 4, 5, 1, 2, 8, 3, 9, 6},
-        {1, 9, 6, 7, 5, 3, 2, 8, 4}
-    };
-
+    testBoard = easy;
+    while( testBoard.fillCertainFields()) { }
+    ASSERT_EQ(testBoard.getBoard(), easySolved.getBoard());
 }
 
 
@@ -236,3 +273,73 @@ TEST_F(SudokuTest, getUniqueValues_works)
     };
     ASSERT_EQ(Sudoku::getUniqueValues(input6), expected6);
 }
+
+TEST_F(SudokuTest, isFilled_works) {
+    ASSERT_FALSE(complexBoard.isFilled());
+
+    std::vector<std::vector<int>> solvedGrid = {
+        {2, 8, 4, 5, 3, 1, 6, 7, 2},
+        {5, 6, 7, 4, 7, 9, 8, 3, 1},
+        {9, 1, 3, 2, 8, 7, 5, 4, 9},
+        {3, 5, 1, 7, 6, 4, 9, 2, 8},
+        {4, 2, 9, 8, 1, 5, 7, 6, 3},
+        {6, 7, 8, 3, 9, 2, 4, 1, 5},
+        {8, 3, 2, 9, 4, 6, 1, 5, 7},
+        {7, 4, 5, 1, 2, 8, 3, 9, 6},
+        {1, 9, 6, 7, 5, 3, 2, 8, 4}
+    };
+    Sudoku solvedBoard{solvedGrid};
+    ASSERT_TRUE(solvedBoard.isFilled());
+
+    ASSERT_TRUE(easySolved.isFilled());
+    ASSERT_FALSE(easy.isFilled());
+
+    ASSERT_TRUE(intermediateSolved.isFilled());
+    ASSERT_FALSE(intermediate.isFilled());
+}
+
+TEST_F(SudokuTest, isValid_works) {
+    ASSERT_TRUE(complexBoard.isValid());
+
+    vector<vector<int>> solvedGrid{
+        {7,9, 5, 3, 1, 8, 6, 2, 4},
+        {1, 6, 8, 4, 5, 2, 7, 9, 3},
+        { 3, 4, 2, 9, 7, 6, 5, 1, 8},
+        { 9, 2, 4, 6, 8, 1, 3, 5, 7},
+        { 5, 7, 3, 2, 4, 9, 1, 8, 6},
+        {8, 1, 6, 5, 3, 7, 9, 4, 2},
+        {4, 8, 9, 7, 6, 5, 2, 3, 1},
+        {6, 5, 1, 8, 2, 3, 4, 7, 9},
+        {2, 3, 7, 1, 9, 4, 8, 6, 5}  // solved
+    };
+    Sudoku solvedBoard{solvedGrid};
+    ASSERT_TRUE(solvedBoard.isValid());
+
+    std::vector<std::vector<int>> fakeGrid = {
+        {0, 8, 4, 5, 3, 1, 6, 7, 2},
+        {5, 6, 7, 4, 7, 9, 8, 3, 1},
+        {9, 1, 3, 2, 8, 7, 5, 4, 9},
+        {3, 5, 1, 7, 6, 4, 9, 2, 8},
+        {4, 2, 9, 8, 1, 5, 7, 6, 3},
+        {6, 7, 8, 3, 9, 2, 9, 1, 5},
+        {8, 3, 2, 9, 4, 6, 1, 5, 7},
+        {7, 4, 5, 1, 2, 8, 3, 9, 6},
+        {1, 9, 6, 7, 5, 3, 2, 8, 4}
+    };
+    Sudoku fakeBoard{fakeGrid};
+    ASSERT_FALSE(fakeBoard.isValid());
+
+    ASSERT_TRUE(easy.isValid());
+    ASSERT_TRUE(easySolved.isValid());
+}
+
+TEST_F(SudokuTest, isSolved_works) {
+    ASSERT_TRUE(easySolved.isSolved());
+    ASSERT_FALSE(easy.isSolved());
+
+    ASSERT_TRUE(intermediateSolved.isSolved());
+    ASSERT_FALSE(intermediate.isSolved());
+}
+
+
+

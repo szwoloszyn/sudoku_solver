@@ -227,12 +227,8 @@ bool Sudoku::fillCertainFields()
     bool sthFilled = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
-            if (col == 2 and row == 5) {
-                int a = 1;
-            }
             auto possibilities = this->getOptions(row, col);
             if (possibilities.size() == 1) {
-                std::cout << "$";
                 sudokuBoard.at(row).at(col) = *(possibilities.begin());
                 sthFilled = true;
             }
@@ -283,6 +279,7 @@ bool Sudoku::iterateThroughStructures()
 
     //iterating through columns
     for (int colNr = 0; colNr < 9; ++colNr) {
+        this->printBoard();
         auto colOptions = getOptionsPerColumn(colNr);
         if (colOptions.size() != 9) {
             std::cerr << "WTF GOIN ON!!!";
@@ -294,18 +291,36 @@ bool Sudoku::iterateThroughStructures()
                 continue;
             }
             if (colOptions.at(rowNr).size() == 1) {
-                this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
+                //this->sudokuBoard.at(rowNr).at(colNr) = *(colOptions.at(rowNr).begin());
                 sthFilled = true;
             }
             else {
                 multiOptions.push_back(pair<set<Field>,int>(colOptions.at(rowNr), rowNr));
             }
         }
+        for (auto i : multiOptions) {
+            if (i.second == 8) {
+                std::cerr << " " << i.first << "\n";
+            }
+        }
         auto fieldsToInsert = Sudoku::getUniqueValues(multiOptions);
+        for (auto i : fieldsToInsert) {
+            if (i.first == 8) {
+                // ISSUE HERE!!!!
+                std::cerr << " this: " << i.second << "\n";
+            }
+        }
         for (const auto& element : fieldsToInsert) {
             if (this->sudokuBoard.at(element.first).at(colNr) != Field{0}) {
                 std::cerr << "tfff";
                 return false;
+            }
+            // BUG THIS IS INSERTING FAKE 2 IN MY SUDOKU (PROBABLY STH WRONG WITH GETUNIQUEVALUES) ://
+            if (element.first == 8 and colNr == 0) {
+                std::cerr << colOptions.at(8);
+                this->printBoard();
+                std::cerr << "2";
+                exit(1);
             }
             std::cout << "#";
             this->sudokuBoard.at(element.first).at(colNr) = element.second;
@@ -316,6 +331,56 @@ bool Sudoku::iterateThroughStructures()
     //TODO iterating through squares
     return sthFilled;
 }
+
+bool Sudoku::isFilled() const
+{
+    for (auto row : sudokuBoard) {
+        for (auto cell : row) {
+            if (cell == Field{0}) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Sudoku::isValid() const
+{
+    if (isFilled()) {
+        for (int i = 0; i < 9; ++i) {
+            auto tmpRow = this->getRow(i);
+            auto tmpCol = this->getColumn(i);
+            auto tmpSquare = this->getSquare(i);
+            set<Field> rowFields{tmpRow.begin(), tmpRow.end()};
+            set<Field> colFields{tmpCol.begin(), tmpCol.end()};
+            set<Field> squareFields{tmpSquare.begin(), tmpSquare.end()};
+            auto expectedFields = Field::getAllPossibleValues();
+            if (rowFields != expectedFields||colFields != expectedFields||squareFields != expectedFields) {
+                return false;
+            }
+        }
+        return true;
+    }
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
+            if (sudokuBoard.at(row).at(col) != Field{0}) {
+                continue;
+            }
+            auto opts = this->getOptions(row, col);
+            if (opts.size() == 0) {
+                // nie ma już czego tutaj wstawić -> sudoku musi być błędne
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Sudoku::isSolved() const
+{
+    return isFilled() and isValid();
+}
+
 
 bool Sudoku::solveSudoku()
 {
